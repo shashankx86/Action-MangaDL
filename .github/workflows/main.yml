@@ -35,14 +35,14 @@ jobs:
         
     - name: Release Prep
       id: rel_prep
-      run: site_title=$(wget -qO- "$(echo "${{ github.event.inputs.url }}")" | perl -l -0777 -ne 'print $1 if /<title.*?>\s*(.*?)\s*<\/title/si' | recode html.. | sed -e 's/Online//g' -e 's/Free//g')
+      run: site_title=$(wget -qO- "$(echo "${{ github.event.inputs.url }}")" | perl -l -0777 -ne 'print $1 if /<title.*?>\s*(.*?)\s*<\/title/si' | recode html.. | sed -e 's/Online//g' -e 's/Free//g') >> $GITHUB_OUTPUT
       
     - uses: "marvinpinto/action-automatic-releases@latest"
       with:
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
-        automatic_release_tag: "${{ steps.rel_prep.outputs.site_title }}"
+        automatic_release_tag: "latest"
         prerelease: false
-        title: "${{ steps.rel_prep.outputs.site_title }}"
+        title: "${{env.today}}"
         files: Manga.zip
         
     - name: Upload Manga.zip as artifact

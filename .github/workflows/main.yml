@@ -7,6 +7,8 @@ on:
         description: 'Manga URL'
         required: true
 
+permissions: write-all
+
 jobs:
   build:
     runs-on: ubuntu-latest

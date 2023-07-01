@@ -1,0 +1,38 @@
+name: Manga-Py Workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+       url:
+        description: 'Manga URL'
+        required: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+    
+    - name: Set up Python
+      uses: actions/setup-python@v3.1.4
+      with:
+        python-version: '3.10'
+    
+    - name: Install manga-py and requirements
+      run: |
+        wget https://github.com/manga-py/manga-py/raw/stable_1.x/requirements.txt
+        pip install -r requirements.txt
+        pip install manga-py
+        
+    - name: Run manga-py
+      run: |
+        manga-py --cbz ${{ github.event.inputs.url }}
+        zip -r Manga.zip Manga
+        
+    - name: Upload Manga.zip as artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: manga-artifact
+        path: Manga.zip

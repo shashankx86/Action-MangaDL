@@ -24,6 +24,7 @@ jobs:
     
     - name: Install manga-py and requirements
       run: |
+        sudo apt-get -y install recode
         wget https://github.com/manga-py/manga-py/raw/stable_1.x/requirements.txt
         pip install -r requirements.txt
         pip install manga-py
@@ -36,6 +37,7 @@ jobs:
     - name: Release Prep
       id: rel_prep
       run: |
+          echo "::set-env name=ACTIONS_ALLOW_UNSECURE_COMMANDS::true"
           site_title=$(wget -qO- "$(echo "${{ github.event.inputs.url }}")" | perl -l -0777 -ne 'print $1 if /<title.*?>\s*(.*?)\s*<\/title/si' | recode html.. | sed -e 's/Online//g' -e 's/Free//g')
           echo "::set-env name=SITE_TITLE::$site_title"
 

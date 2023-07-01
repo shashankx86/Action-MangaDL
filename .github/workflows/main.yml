@@ -42,7 +42,7 @@ jobs:
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
         automatic_release_tag: "latest"
         prerelease: false
-        title: "${{env.site_title}}"
+        title: ${{env.site_title}}
         files: Manga.zip
         
     - name: Upload Manga.zip as artifact

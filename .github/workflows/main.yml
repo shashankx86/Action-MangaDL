@@ -48,8 +48,3 @@ jobs:
         title: ${{ env.SITE_TITLE }}
         files: Manga.zip
         
-    - name: Upload Manga.zip as artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: manga-artifact
-        path: Manga.zip
